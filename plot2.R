@@ -1,0 +1,8 @@
+library(dplyr)
+data <- read.csv("household_power_consumption.txt",sep=';',na.strings='?')
+data <- mutate(data,Date = (as.Date(Date,format="%d/%m/%Y")))
+datasubset <- filter(data,Date==as.Date("2/1/2007",format="%m/%d/%Y") | Date==as.Date("2/2/2007",format="%m/%d/%Y"))
+datasubset <- mutate(datasubset,DateTime=as.POSIXct(strptime(paste(Date,Time),format="%Y-%m-%d %H:%M:%S")))
+plot(datasubset$DateTime,datasubset$Global_active_power,type="l",ylab="Global Active Power (kilowatts)",xlab="")
+dev.copy(png,filename="plot2.png",width=480,height=480)
+dev.off()
